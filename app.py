@@ -18,18 +18,18 @@ end = datetime(2022, 12, 31)
 st.title("Stock Trend Prediction")
 
 user_input = st.text_input("Enter Stock Ticker : ", "SBIN.NS")
-if user_input=="":
-    e=ValueError("Please enter the stock ticker...")
+if user_input == "":
+    e = ValueError("Please enter the stock ticker...")
     st.error(e)
 df = yf.download(user_input, start=start, end=end, progress=False)
 
-# Decribing Data
+# Describing Data
 st.subheader("Data from 2013-2023")
 st.write(df.describe())
 
-# vizualizations 
+# visualizations
 st.subheader("Closing Price vs Time chart")
-fig = plt.figure(figsize=(12,6))
+fig = plt.figure(figsize=(12, 6))
 plt.plot(df.Close)
 st.pyplot(fig)
 
@@ -50,11 +50,11 @@ plt.plot(df.Close, "b")
 st.pyplot(fig)
 
 # separating training data and testing data
-data_training = pd.DataFrame(df["Close"][:int(len(df)*0.7)]) # for training data taking 70% data
+data_training = pd.DataFrame(df["Close"][:int(len(df)*0.7)])  # for training data taking 70% data
 data_testing = pd.DataFrame(df["Close"][int(len(df)*0.7):])  # for testing data taking 30% data
 
 # scaling data between 0 and 1
-scaler = MinMaxScaler(feature_range=(0,1))
+scaler = MinMaxScaler(feature_range=(0, 1))
 data_training_array = scaler.fit_transform(data_training)
 data_testing_array = scaler.fit_transform(data_testing)
 
@@ -76,8 +76,9 @@ for i in range(100, input_data.shape[0]):
 
 x_test, y_test = np.array(x_test), np.array(y_test)
 y_predicted = model.predict(x_test)
-scaler = scaler.scale_
-scale_factor = 1/scaler[0]
+sc = scaler.scale_
+# print(scaler, type(scaler))
+scale_factor = 1/sc[0]
 y_predicted = y_predicted*scale_factor
 y_test = y_test*scale_factor
 
